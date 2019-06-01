@@ -20,9 +20,9 @@
 `timescale 1 ns / 1 ps
 // `default_nettype none
 // `define DEBUGNETS
-// `define DEBUGREGS
-// `define DEBUGASM
-// `define DEBUG
+//`define DEBUGREGS
+`define DEBUGASM
+ `define DEBUG
 
 `ifdef DEBUG
   `define debug(debug_command) debug_command
@@ -1460,7 +1460,7 @@ module picorv32 #(
 				reg_out <= STACKADDR;
 			end
 			cpu_state <= cpu_state_fetch;
-		end else
+		end else begin
 		(* parallel_case, full_case *)
 		case (cpu_state)
 			cpu_state_trap: begin
@@ -1890,7 +1890,7 @@ module picorv32 #(
 				end
 			end
 		endcase
-
+                end // TODO: Trying this...
 		if (CATCH_MISALIGN && resetn && (mem_do_rdata || mem_do_wdata)) begin
 			if (mem_wordsize == 0 && reg_op1[1:0] != 0) begin
 				`debug($display("MISALIGNED WORD: 0x%08x", reg_op1);)
